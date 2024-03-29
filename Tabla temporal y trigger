@@ -1,0 +1,16 @@
+use myfood;
+
+create table auditproducto(
+idaudit int primary key auto_increment,
+usuario varchar(25),
+fecha datetime,
+observacion varchar(80));
+
+	DELIMITER //
+    create trigger auditoriaProductos after insert on productos
+    for each row
+		begin
+			insert into auditproducto (usuario, fecha, observacion)
+            values (user(), now(),concat( 'Se agrego el prodcuto', NEW.nombreProducto, 'al mercado'));
+        end;
+//
